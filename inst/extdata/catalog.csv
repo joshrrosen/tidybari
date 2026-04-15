@@ -1,0 +1,51 @@
+domain,level,year,doi,filename,restricted,description,census_vintage
+permits,ecometrics_ct,2015,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2015.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2015,2010
+permits,ecometrics_ct,2016,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2016.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2016,2010
+permits,ecometrics_ct,2017,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2017.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2017,2010
+permits,ecometrics_ct,2018,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2018.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2018,2010
+permits,ecometrics_ct,2019,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2019.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2019,2010
+permits,ecometrics_ct,2020,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2020.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2020,2010
+permits,ecometrics_ct,2021,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2021.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2021,2010
+permits,ecometrics_ct,2022,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2022.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2022,2010
+permits,ecometrics_ct,2023,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2023.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2023,2010
+permits,ecometrics_ct,2024,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.2024.tab,FALSE,Building permit ecometrics at census tract level 2010 vintage for 2024,2010
+permits,ecometrics_cbg,2015,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2015.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2015,2010
+permits,ecometrics_cbg,2016,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2016.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2016,2010
+permits,ecometrics_cbg,2017,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2017.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2017,2010
+permits,ecometrics_cbg,2018,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2018.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2018,2010
+permits,ecometrics_cbg,2019,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2019.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2019,2010
+permits,ecometrics_cbg,2020,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2020.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2020,2010
+permits,ecometrics_cbg,2021,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2021.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2021,2010
+permits,ecometrics_cbg,2022,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2022.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2022,2010
+permits,ecometrics_cbg,2023,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2023.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2023,2010
+permits,ecometrics_cbg,2024,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.2024.tab,FALSE,Building permit ecometrics at census block group level 2010 vintage for 2024,2010
+permits,ecometrics_lp,2015,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2015.tab,FALSE,Building permit ecometrics at land parcel level for 2015,2010
+permits,ecometrics_lp,2016,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2016.tab,FALSE,Building permit ecometrics at land parcel level for 2016,2010
+permits,ecometrics_lp,2017,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2017.tab,FALSE,Building permit ecometrics at land parcel level for 2017,2010
+permits,ecometrics_lp,2018,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2018.tab,FALSE,Building permit ecometrics at land parcel level for 2018,2010
+permits,ecometrics_lp,2019,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2019.tab,FALSE,Building permit ecometrics at land parcel level for 2019,2010
+permits,ecometrics_lp,2020,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2020.tab,FALSE,Building permit ecometrics at land parcel level for 2020,2010
+permits,ecometrics_lp,2021,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2021.tab,FALSE,Building permit ecometrics at land parcel level for 2021,2010
+permits,ecometrics_lp,2022,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2022.tab,FALSE,Building permit ecometrics at land parcel level for 2022,2010
+permits,ecometrics_lp,2023,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2023.tab,FALSE,Building permit ecometrics at land parcel level for 2023,2010
+permits,ecometrics_lp,2024,10.7910/DVN/B7DHBK,Permits.Ecometrics.LP.2024.tab,FALSE,Building permit ecometrics at land parcel level for 2024,2010
+permits,ecometrics_ct_longitudinal,NA,10.7910/DVN/B7DHBK,Permits.Ecometrics.CT2010.Longitudinal.tab,FALSE,Building permit ecometrics longitudinal data at census tract level 2010 vintage,2010
+permits,ecometrics_cbg_longitudinal,NA,10.7910/DVN/B7DHBK,Permits.Ecometrics.CBG2010.Longitudinal.tab,FALSE,Building permit ecometrics longitudinal data at block group level 2010 vintage,2010
+permits,records,2025,10.7910/DVN/B7DHBK,Permits.Records.Geocoded.2025.csv,FALSE,Individual building permit applications for 2025,2010
+911,ecometrics_ct_longitudinal,NA,10.7910/DVN/XTEJRE,"911 Ecometrics CT Longitudinal, Yearly (2010-2022).tab",FALSE,911 call ecometrics longitudinal yearly data at census tract level 2010-2022,2010
+911,ecometrics_cbg_longitudinal,NA,10.7910/DVN/XTEJRE,"911 Ecometrics CBG Longitudinal, Yearly (2010-2022).tab",FALSE,911 call ecometrics longitudinal yearly data at block group level 2010-2022,2010
+311,ecometrics_ct,NA,10.7910/DVN/CVKM87,311 Ecometrics Tracts Vertical 2010 Geographies.tab,FALSE,311 service request ecometrics at census tract level 2010 vintage,2010
+311,ecometrics_cbg,NA,10.7910/DVN/CVKM87,311 Ecometrics CBGs Vertical 2010 Geographies.tab,FALSE,311 service request ecometrics at block group level 2010 vintage,2010
+311,ecometrics_ct_longitudinal,NA,10.7910/DVN/CVKM87,311 Ecometrics Tracts Longitudinal 2010 Geographies.tab,FALSE,311 service request ecometrics longitudinal data at census tract level 2010 vintage,2010
+311,ecometrics_cbg_longitudinal,NA,10.7910/DVN/CVKM87,311 Ecometrics CBGs Longitudinal 2010 Geographies.tab,FALSE,311 service request ecometrics longitudinal data at block group level 2010 vintage,2010
+assessments,ecometrics_ct,2022,10.7910/DVN/50TDWN,PADCross.CT10.2022.tab,FALSE,Property assessment ecometrics at census tract level 2010 vintage for 2022,2010
+assessments,ecometrics_cbg,2022,10.7910/DVN/50TDWN,PADCross.CBG10.2022.tab,FALSE,Property assessment ecometrics at block group level 2010 vintage for 2022,2010
+assessments,ecometrics_ct_longitudinal,NA,10.7910/DVN/50TDWN,PADLong.CT10.2022.tab,FALSE,Property assessment ecometrics longitudinal data at census tract level 2010 vintage,2010
+assessments,ecometrics_cbg_longitudinal,NA,10.7910/DVN/50TDWN,PADLong.CBG10.2022.tab,FALSE,Property assessment ecometrics longitudinal data at block group level 2010 vintage,2010
+assessments,records,2022,10.7910/DVN/50TDWN,PADCross.Record.2022.tab,FALSE,Individual property assessment records for 2022,2010
+airbnb,records,NA,10.7910/DVN/GXLZXF,AIRBNB.Listing.csv,FALSE,Airbnb listing-level records,2010
+airbnb,ecometrics_ct,NA,10.7910/DVN/GXLZXF,AIRBNB.CT.tab,FALSE,Airbnb ecometrics at census tract level,2010
+craigslist,records,NA,10.7910/DVN/52WSPT,CRAIGSLIST.Listings.csv,FALSE,Craigslist housing posting records,2010
+craigslist,ecometrics_ct,NA,10.7910/DVN/52WSPT,CRAIGSLIST.CT.tab,FALSE,Craigslist ecometrics at census tract level,2010
+yelp,records,NA,10.7910/DVN/DMWCBT,YELP.Reviews.tab,FALSE,Yelp review records,2010
+yelp,ecometrics_ct,NA,10.7910/DVN/DMWCBT,YELP.CT.tab,FALSE,Yelp ecometrics at census tract level,2010

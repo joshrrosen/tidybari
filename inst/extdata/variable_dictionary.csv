@@ -1,0 +1,31 @@
+domain,variable,label,description
+311,private_neglect,Private Neglect,Composite measure of failure to maintain private property (from 311 requests)
+311,public_denigration,Public Denigration,Composite measure of manmade incivilities in public spaces (e.g. graffiti)
+311,engagement,Civic Engagement,Tendency for residents to know of and use the 311 system
+311,custodianship,Custodianship,Tendency to use 311 to report and maintain public spaces
+911,crime,Crime,Ecometric index of criminal activity derived from 911 dispatches
+911,social_disorder,Social Disorder,Ecometric index of social disorder from 911 dispatches
+911,medical_emergency,Medical Emergency,Ecometric index of medical emergencies from 911 dispatches
+permits,investment,Investment,Measure of construction investment from building permit applications
+permits,growth,Growth,Measure of new development and growth from permits
+permits,commercial_permits,Commercial Permits,Count of commercial building permits
+permits,residential_permits,Residential Permits,Count of residential building permits
+assessments,EE_SCORE.res,Ecometric Environment Score (Residential),Composite ecometric score for residential property environment at the tract level
+assessments,AV_LAND_PER_SF.res,Land Value per Sq Ft (Residential),Average assessed land value per square foot for residential properties
+assessments,AV_LAND_PER_SF.nonres,Land Value per Sq Ft (Non-Residential),Average assessed land value per square foot for non-residential properties
+assessments,AV_BLDG_PER_SF.res,Building Value per Sq Ft (Residential),Average assessed building value per square foot for residential properties
+assessments,AV_BLDG_PER_SF.nonres,Building Value per Sq Ft (Non-Residential),Average assessed building value per square foot for non-residential properties
+assessments,YR_BUILT_REMOD.res,Year Built/Remodeled (Residential),Average year residential properties were built or last remodeled
+assessments,YR_BUILT_REMOD.nonres,Year Built/Remodeled (Non-Residential),Average year non-residential properties were built or last remodeled
+assessments,DEC_BUILT_REMOD.res,Decade Built/Remodeled (Residential),Modal decade in which residential properties were built or last remodeled
+assessments,DEC_BUILT_REMOD.nonres,Decade Built/Remodeled (Non-Residential),Modal decade in which non-residential properties were built or last remodeled
+assessments,nbhdval,Neighborhood Property Value Index,Composite index of aggregate property value for the census tract
+airbnb,listing_freq,Listing Frequency,Count/density of Airbnb listings per census tract
+airbnb,avg_price,Average Price,Average nightly price of Airbnb listings per tract
+airbnb,occupancy_rate,Occupancy Rate,Average occupancy rate of Airbnb listings
+craigslist,listing_freq,Listing Frequency,Count of Craigslist housing listings per tract
+craigslist,avg_value,Average Value,Average listing value per tract
+craigslist,rent_avg,Average Rent,Average rent price from Craigslist listings
+yelp,review_freq,Review Frequency,Frequency of Yelp reviews per tract
+yelp,avg_rating,Average Rating,Average Yelp rating for businesses in tract
+yelp,restaurant_density,Restaurant Density,Number of restaurants per unit area

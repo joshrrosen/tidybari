@@ -1,0 +1,13 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^data-raw$
+^LICENSE\.md$
+^\.git$
+^\.gitignore$
+^README\.Rmd$
+^CLAUDE_CODE_INSTRUCTIONS\.txt\.txt$
+^\.claude$
+^PHASE_0_1_SUMMARY\.md$
+^PHASE_2_3_5_SUMMARY\.md$
+^PHASE_4_COMPLETE\.md$
+^TODO_MANUAL_TASKS\.txt$

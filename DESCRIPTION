@@ -1,0 +1,38 @@
+Package: tidybari
+Type: Package
+Title: Access Boston Area Research Initiative Data
+Version: 0.1.0
+Author: Josh Rosen
+Maintainer: Josh Rosen <rosen.jos@northeastern.edu>
+Description: Download and work with data from the Boston Area Research
+    Initiative (BARI) Data Portal, hosted on Harvard Dataverse. Provides
+    tidy access to neighborhood ecometrics, administrative records, and
+    spatial geometries for the City of Boston. Inspired by the tidycensus
+    package.
+License: MIT + file LICENSE
+URL: https://github.com/joshrrosen/tidybari
+BugReports: https://github.com/joshrrosen/tidybari/issues
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports:
+    dataverse,
+    tibble,
+    dplyr,
+    readr,
+    sf,
+    rlang,
+    cli,
+    rappdirs,
+    magrittr
+Suggests:
+    testthat (>= 3.0.0),
+    ggplot2,
+    rmapshaper,
+    knitr,
+    rmarkdown
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

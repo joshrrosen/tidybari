@@ -1,0 +1,364 @@
+---
+title: "Getting Started with tidybari"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with tidybari}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE  # Most chunks require network access to Dataverse
+)
+```
+
+## Introduction
+
+The **tidybari** package provides easy access to data from the Boston Area Research Initiative (BARI), hosted on Harvard Dataverse. BARI curates administrative, commercial, and social media data about Boston neighborhoods at multiple geographic scales.
+
+Think of tidybari as "tidycensus for BARI data" — it lets you download neighborhood-level data with a single function call, optionally including spatial geometries for mapping.
+
+## Installation
+
+You can install tidybari from GitHub:
+
+```{r install}
+# install.packages("remotes")
+remotes::install_github("joshrrosen/tidybari")
+```
+
+## Loading the Package
+
+```{r setup, eval = TRUE}
+library(tidybari)
+
+# For spatial analysis and mapping
+library(sf)
+library(ggplot2)
+library(dplyr)
+```
+
+## Discovering Available Data
+
+### Browse the Dataset Catalog
+
+The `bari_catalog()` function shows all available datasets:
+
+```{r catalog, eval = TRUE}
+# View all datasets
+catalog <- bari_catalog()
+head(catalog)
+
+# Filter to a specific domain
+permits_catalog <- bari_catalog(domain = "permits")
+permits_catalog
+
+# Filter by year
+catalog_2020 <- bari_catalog(year = 2020)
+```
+
+The catalog shows:
+- **domain**: Data source (911, permits, airbnb, etc.)
+- **level**: Geographic/data level (records, ecometrics_ct, etc.)
+- **year**: Data year
+- **doi**: Harvard Dataverse persistent ID
+- **filename**: Exact filename on Dataverse
+
+### Explore Available Variables
+
+Use `load_variables()` to see what ecometric measures are available:
+
+```{r variables, eval = TRUE}
+# View all variables
+all_vars <- load_variables()
+all_vars
+
+# Variables for a specific domain
+permits_vars <- load_variables("permits")
+permits_vars
+
+# In RStudio, use View() for interactive browsing
+# View(load_variables())
+```
+
+## Downloading Ecometric Data
+
+Ecometrics are neighborhood-level indices that measure social and physical characteristics of place. They're derived from administrative records but aggregated to protect privacy.
+
+### Basic Usage
+
+```{r ecometrics-basic}
+# Get 911 call ecometrics (longitudinal data covering 2010-2022)
+# Note: 911 ecometrics are only available as longitudinal data
+data_911 <- get_ecometrics(
+  domain = "911",
+  longitudinal = TRUE
+)
+
+head(data_911)
+```
+
+### Select Specific Variables
+
+```{r ecometrics-variables}
+# Get only investment and growth measures from permits
+permits <- get_ecometrics(
+  domain = "permits",
+  geography = "tract",
+  year = 2020,
+  variables = c("investment", "growth")
+)
+
+head(permits)
+```
+
+### Different Geographic Levels
+
+```{r ecometrics-geography}
+# Census tract level (default)
+tract_data <- get_ecometrics("permits", year = 2020)
+
+# Census block group level (finer detail)
+bg_data <- get_ecometrics(
+  "permits",
+  geography = "block_group",
+  year = 2020
+)
+
+# Land parcel level (property-level, permits only)
+parcel_data <- get_ecometrics(
+  "permits",
+  geography = "parcel",
+  year = 2020
+)
+```
+
+### Longitudinal Data
+
+```{r ecometrics-longitudinal}
+# Get data across multiple years
+permits_long <- get_ecometrics(
+  "permits",
+  longitudinal = TRUE
+)
+
+# This returns data for all available years
+head(permits_long)
+```
+
+## Downloading Record-Level Data
+
+Some datasets provide individual records (like permit applications or Airbnb listings):
+
+```{r records}
+# Get building permit applications (most recent year available)
+permits_records <- get_records("permits")
+head(permits_records)
+
+# Airbnb listings (not year-specific)
+airbnb <- get_records("airbnb")
+
+# Yelp reviews
+yelp <- get_records("yelp")
+```
+
+**Note:** Raw 911 dispatch records are restricted by BARI for privacy. Only aggregated ecometrics are publicly available.
+
+```{r records-911, error = TRUE, eval = TRUE}
+# This will error with a helpful message
+try(get_records("911"))
+```
+
+## Spatial Analysis and Mapping
+
+### Get Data with Geometries
+
+The most powerful feature of tidybari is the ability to get data with spatial geometries ready for mapping:
+
+```{r spatial-data}
+# Get ecometrics with geometries
+permits_spatial <- get_ecometrics(
+  domain = "permits",
+  geography = "tract",
+  year = 2020,
+  geometry = TRUE  # This adds spatial boundaries
+)
+
+# Result is an sf object
+class(permits_spatial)
+```
+
+### Map Ecometrics
+
+```{r map-basic}
+# Map investment ecometric
+ggplot(permits_spatial) +
+  geom_sf(aes(fill = investment)) +
+  scale_fill_viridis_c(option = "plasma") +
+  theme_minimal() +
+  labs(
+    title = "Building Permit Investment by Census Tract",
+    subtitle = "Boston, 2020",
+    fill = "Investment\nIndex"
+  )
+```
+
+### Get Geography Boundaries Separately
+
+You can also get spatial boundaries without data:
+
+```{r geography, eval = TRUE}
+# Get census tract boundaries
+tracts <- get_geography("tract")
+plot(tracts["NAME"])
+
+# Get block group boundaries
+bg <- get_geography("block_group")
+
+# Get BPDA neighborhood boundaries
+neighborhoods <- get_geography("neighborhood")
+```
+
+### Custom Maps
+
+```{r map-custom}
+# Get data
+permits <- get_ecometrics(
+  "permits",
+  year = 2020,
+  geometry = TRUE
+)
+
+# Create a custom map
+ggplot(permits) +
+  geom_sf(aes(fill = growth), color = "white", size = 0.1) +
+  scale_fill_gradient2(
+    low = "blue",
+    mid = "white",
+    high = "red",
+    midpoint = median(permits$growth, na.rm = TRUE)
+  ) +
+  theme_void() +
+  labs(
+    title = "Urban Growth Patterns",
+    subtitle = "Derived from building permits, 2020",
+    fill = "Growth Index",
+    caption = "Data: Boston Area Research Initiative"
+  )
+```
+
+## Caching for Performance
+
+Downloaded files are automatically cached locally to improve performance:
+
+```{r cache, eval = TRUE}
+# View cache directory
+bari_cache_dir()
+
+# Set a custom cache location
+bari_cache_dir("~/my_bari_cache")
+
+# Clear the cache (free up disk space)
+bari_cache_clear()
+```
+
+Control caching behavior in download functions:
+
+```{r cache-control}
+# Force fresh download even if cached
+data <- get_ecometrics("permits", year = 2020, refresh = TRUE)
+
+# Disable caching for this download
+data <- get_ecometrics("permits", year = 2020, cache = FALSE)
+```
+
+## Combining Multiple Datasets
+
+```{r combine}
+# Get 911 longitudinal ecometrics and permits data for a common year
+data_911 <- get_ecometrics("911", longitudinal = TRUE) %>%
+  dplyr::filter(year == 2020)
+data_permits <- get_ecometrics("permits", year = 2020)
+
+# Join by census tract ID
+combined <- data_911 %>%
+  inner_join(data_permits, by = "CT_ID_10", suffix = c("_911", "_permits"))
+
+# Now you can analyze relationships
+library(ggplot2)
+ggplot(combined, aes(x = crime, y = investment)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm") +
+  theme_minimal() +
+  labs(
+    title = "Crime and Investment Patterns",
+    x = "Crime Index (911 calls)",
+    y = "Investment Index (permits)"
+  )
+```
+
+## Example Workflow
+
+Here's a complete workflow from discovery to visualization:
+
+```{r workflow}
+# 1. Discover what's available
+load_variables("permits")
+
+# 2. Get data with geometries
+data <- get_ecometrics(
+  domain = "permits",
+  geography = "tract",
+  year = 2020,
+  variables = c("investment", "growth"),
+  geometry = TRUE
+)
+
+# 3. Quick exploration
+summary(data)
+
+# 4. Create a map
+ggplot(data) +
+  geom_sf(aes(fill = investment)) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  labs(title = "Investment Patterns in Boston")
+
+# 5. Save for later use
+# sf::st_write(data, "boston_permits_2020.geojson")
+```
+
+## Data Citation
+
+All data come from the Boston Area Research Initiative. When using BARI data in publications, please cite appropriately:
+
+```{r citation, eval = TRUE}
+# Find the DOI for your dataset
+catalog <- bari_catalog(domain = "permits", year = 2020)
+catalog$doi[1]
+```
+
+**Example citation:**
+
+> Boston Area Research Initiative, 2020. Building Permits. Harvard Dataverse. https://doi.org/10.7910/DVN/B7DHBK
+
+## Getting Help
+
+- **Function documentation**: `?get_ecometrics`, `?bari_catalog`, etc.
+- **Package website**: [https://github.com/joshrrosen/tidybari](https://github.com/joshrrosen/tidybari)
+- **BARI website**: [https://cssh.northeastern.edu/bari/](https://cssh.northeastern.edu/bari/)
+- **Report issues**: [https://github.com/joshrrosen/tidybari/issues](https://github.com/joshrrosen/tidybari/issues)
+- **BARI data questions**: [[email protected]](mailto:[email protected])
+
+## Additional Resources
+
+- [BARI Data Portal on Harvard Dataverse](https://dataverse.harvard.edu/dataverse/BARI)
+- [tidycensus package](https://walker-data.com/tidycensus/) (similar API for US Census data)
+- [Simple Features for R](https://r-spatial.github.io/sf/) (sf package documentation)
+
+---
+
+**Happy mapping!** 🗺️

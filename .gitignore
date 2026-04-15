@@ -1,0 +1,35 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.o
+*.so
+*.rds
+.httr-oauth
+.DS_Store
+inst/doc
+# R session files
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Development artifacts
+CLAUDE_CODE_INSTRUCTIONS.txt.txt
+FIXING_DATAVERSE_DOWNLOADS.md
+MANUAL_TESTING_GUIDE.md
+PACKAGE_COMPLETE.md
+PHASE_0_1_SUMMARY.md
+PHASE_2_3_5_SUMMARY.md
+PHASE_4_COMPLETE.md
+RUN_TEST.bat
+convergence_trace.png
+discover_real_filenames.R
+discovered_filenames.rds
+fix_catalog_filenames.R
+test_catalog_fix.R
+test_catalog_fix_direct.R
+test_catalog_fix_simple.R
+test_package.R
+.claude/
+TODO_MANUAL_TASKS.txt

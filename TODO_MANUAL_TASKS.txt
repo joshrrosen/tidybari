@@ -1,0 +1,304 @@
+================================================================================
+TIDYBARI PACKAGE - MANUAL TASKS REQUIRED
+================================================================================
+
+This file lists all tasks that require manual work beyond the automated package
+development. Items are organized by priority and category.
+
+Last Updated: 2026-04-14
+Package Status: Phases 0-6 Complete, Phase 7 In Progress
+
+================================================================================
+CRITICAL - REQUIRED BEFORE PUBLICATION
+================================================================================
+
+[ ] 1. UPDATE AUTHOR INFORMATION
+    File: DESCRIPTION
+    Current: Author: Josh Russell
+             Maintainer: Josh Russell <[email protected]>
+    Action: Replace with your actual name and email address
+
+[ ] 2. UPDATE GITHUB REPOSITORY URLs
+    Files: DESCRIPTION, README.md, vignettes/getting-started.Rmd
+    Current: https://github.com/YOURUSERNAME/tidybari
+    Action: Replace YOURUSERNAME with your actual GitHub username
+    Search for: "YOURUSERNAME" in all files
+
+[ ] 3. INITIALIZE GIT REPOSITORY (if not already done)
+    Commands:
+      git init
+      git add .
+      git commit -m "Initial commit: tidybari package"
+      git remote add origin https://github.com/YOURUSERNAME/tidybari.git
+      git push -u origin main
+
+================================================================================
+HIGH PRIORITY - REQUIRED FOR PRODUCTION USE
+================================================================================
+
+[ ] 4. DOWNLOAD REAL BARI SHAPEFILES (requires network access)
+    File: data-raw/build_geometries.R
+    Current: Uses placeholder geometries (simple rectangles)
+    Action:
+      a. Ensure network access to Harvard Dataverse
+      b. Edit build_geometries.R to uncomment download code (lines ~40-60)
+      c. Run: source("data-raw/build_geometries.R")
+      d. Verify: Real Boston geometries loaded (should have 180+ tracts)
+
+    Data Sources:
+      - Census Tracts: DOI 10.7910/DVN/GZCCQW (Geographical Infrastructure v.2022)
+      - Block Groups: DOI 10.7910/DVN/GZCCQW (same dataset)
+      - Neighborhoods: DOI 10.7910/DVN/JZV6ON (Administrative Geographies)
+
+    Why needed: Current placeholder geometries are functional but not accurate.
+                Real geometries needed for accurate mapping.
+
+[ ] 5. TEST WITH REAL DATA FROM DATAVERSE (requires network access)
+    Action:
+      a. Ensure network connection to dataverse.harvard.edu
+      b. Test key workflows:
+         - get_ecometrics("permits", year = 2020)
+         - get_records("permits", year = 2020)
+         - get_ecometrics("911", year = 2020, geometry = TRUE)
+      c. Verify downloaded data structure matches expectations
+      d. Check that geographic ID columns exist and match
+
+    Expected issues to watch for:
+      - Filename mismatches in catalog (see item #8)
+      - Column name differences (see item #9)
+      - Missing files on Dataverse
+      - Authentication requirements
+
+[ ] 6. ADD 311 DATA TO CATALOG
+    File: inst/extdata/catalog.csv
+    Current: No 311 entries (catalog has 911, permits, airbnb, etc.)
+    Action:
+      a. Find the DOI for BARI's 311 dataset on Harvard Dataverse
+         Visit: https://dataverse.harvard.edu/dataverse/BARI
+      b. Identify available files and years
+      c. Add entries following this pattern:
+         311,ecometrics_ct,2015,DOI_HERE,311.Ecometrics.CT.2015.csv,FALSE,...
+         311,ecometrics_ct,2016,DOI_HERE,311.Ecometrics.CT.2016.csv,FALSE,...
+         (etc. for all available years)
+
+    Why needed: Tests and examples reference 311 data but it's not in catalog.
+
+[ ] 7. BUILD AND TEST VIGNETTE
+    File: vignettes/getting-started.Rmd
+    Action:
+      a. Build vignette: devtools::build_vignettes()
+      b. View result: browseVignettes("tidybari")
+      c. Fix any build errors or rendering issues
+      d. Test code examples (those with eval=FALSE need manual testing)
+
+    Note: Most code chunks have eval=FALSE because they require network access.
+          Manual testing with real Dataverse connection is required.
+
+================================================================================
+MEDIUM PRIORITY - DATA QUALITY IMPROVEMENTS
+================================================================================
+
+[ ] 8. VERIFY CATALOG FILENAMES MATCH DATAVERSE
+    File: inst/extdata/catalog.csv
+    Action:
+      a. Visit each dataset on Harvard Dataverse
+      b. Check actual filenames vs. catalog entries
+      c. Update catalog if filenames don't match
+
+    Example checks:
+      - DOI 10.7910/DVN/B7DHBK (Permits)
+        Expected: "Permits.Records.Geocoded.2020.csv"
+        Verify:   Actual filename on Dataverse matches
+
+      - DOI 10.7910/DVN/XTEJRE (911)
+        Expected: "911.Ecometrics.CT.2020.csv"
+        Verify:   Actual filename matches
+
+    Common issues:
+      - Year formatting (YYYY vs YY)
+      - Capitalization differences
+      - File extensions (.csv vs .tab)
+      - Extra words in filenames
+
+[ ] 9. UPDATE VARIABLE DICTIONARY WITH ACTUAL COLUMN NAMES
+    File: inst/extdata/variable_dictionary.csv
+    Current: Contains reasonable guesses for variable names
+    Action:
+      a. Download sample files from each domain
+      b. Inspect actual column names
+      c. Update variable_dictionary.csv with real column names
+      d. Add descriptions from BARI codebooks if available
+
+    Example:
+      Current: permits,investment,Investment,Measure of construction investment...
+      Check:   Does "investment" column actually exist in Permits.Ecometrics.CT.2020.csv?
+      Update:  If actual column is "total_investment", update dictionary
+
+    Why needed: Variable selection won't work if names don't match actual data.
+
+[ ] 10. VERIFY CENSUS VINTAGE ASSIGNMENTS
+     File: inst/extdata/catalog.csv
+     Column: census_vintage
+     Current: Simplified rule (2010 for years <= 2020, 2020 for years > 2020)
+     Action:
+       a. Check BARI documentation for each dataset
+       b. Verify which census geography each uses
+       c. Update census_vintage column if incorrect
+
+     Why needed: Important for joining to correct geography vintages.
+
+================================================================================
+LOW PRIORITY - OPTIONAL ENHANCEMENTS
+================================================================================
+
+[ ] 11. EXPAND CATALOG WITH ADDITIONAL DATASETS
+     Current: 42 datasets across 6 domains
+     Potential additions:
+       - 311 data (HIGH priority, see item #6)
+       - Property assessments (multiple vintages available)
+       - Additional years for existing domains
+       - New BARI datasets as they become available
+
+     Action: Periodically check BARI Dataverse for new datasets
+
+[ ] 12. ADD MORE GEOGRAPHY LEVELS
+     File: R/get_geography.R, data-raw/build_geometries.R
+     Current: tract, block_group, neighborhood
+     Potential additions:
+       - Police districts
+       - Fire districts
+       - Zip codes
+       - Council districts
+       - Election wards/precincts
+
+     Source: DOI 10.7910/DVN/JZV6ON (Administrative Geographies)
+
+[ ] 13. EXPAND VARIABLE DICTIONARY
+     Current: 20 variables documented
+     Action: Add more variables as discovered in data exploration
+
+[ ] 14. ADD PACKAGE WEBSITE WITH PKGDOWN
+     Action:
+       - usethis::use_pkgdown()
+       - pkgdown::build_site()
+       - Deploy to GitHub Pages
+
+     Benefits: Beautiful documentation website, searchable functions
+
+[ ] 15. SUBMIT TO CRAN (optional, long-term goal)
+     Requirements:
+       - All previous items completed
+       - 0 errors, 0 warnings, minimal notes in R CMD check
+       - Comprehensive documentation and tests
+       - CRAN submission guidelines followed
+
+     Resources: https://r-pkgs.org/release.html
+
+[ ] 16. CREATE ADDITIONAL VIGNETTES
+     Ideas:
+       - "Mapping with tidybari"
+       - "Longitudinal analysis"
+       - "Combining multiple data sources"
+       - "Advanced spatial operations"
+
+[ ] 17. ADD DATASET-SPECIFIC HELPER FUNCTIONS
+     Examples:
+       - get_permits() - convenience wrapper for permits data
+       - get_crime() - convenience wrapper for 911 crime data
+       - join_geometries() - explicit spatial join function
+
+================================================================================
+VERIFICATION CHECKLIST - RUN BEFORE PUBLISHING
+================================================================================
+
+Pre-publication checklist (run after completing critical/high priority items):
+
+[ ] Package builds successfully
+    - devtools::build()
+    - No errors or warnings
+
+[ ] All tests pass
+    - devtools::test()
+    - 134+ tests passing
+
+[ ] Package checks pass
+    - devtools::check()
+    - 0 errors, 0 warnings
+
+[ ] Documentation is complete
+    - All exported functions documented
+    - README is up-to-date
+    - Vignette builds successfully
+
+[ ] Real data downloads work
+    - Tested get_ecometrics() with real Dataverse data
+    - Tested get_records() with real data
+    - Spatial joins work with real geometries
+
+[ ] Examples run without errors
+    - README examples work
+    - Vignette examples work (when eval=TRUE)
+    - Function examples work
+
+[ ] Git repository is clean
+    - All changes committed
+    - .gitignore properly configured
+    - No sensitive data in repository
+
+[ ] GitHub repository is set up
+    - Repository created
+    - Code pushed to GitHub
+    - README displays correctly on GitHub
+
+[ ] Installation from GitHub works
+    - remotes::install_github("YOURUSERNAME/tidybari")
+    - Package loads: library(tidybari)
+    - Basic functions work
+
+================================================================================
+NOTES FOR MAINTENANCE
+================================================================================
+
+BARI Data Updates:
+  - BARI periodically releases new data vintages
+  - Check https://dataverse.harvard.edu/dataverse/BARI for updates
+  - Add new datasets/years to catalog.csv as needed
+
+Breaking Changes to Avoid:
+  - Don't change function signatures (add parameters, don't remove)
+  - Don't rename exported functions
+  - Keep catalog column names consistent
+  - Maintain backwards compatibility
+
+Package Dependencies:
+  - Review DESCRIPTION periodically
+  - Update minimum R version if needed
+  - Check for deprecated functions in dependencies
+
+Testing Strategy:
+  - Run tests before each release
+  - Add tests for new features
+  - Mock downloads to avoid network dependency in tests
+
+================================================================================
+CONTACT INFORMATION FOR HELP
+================================================================================
+
+BARI Data Questions:
+  Email: [email protected]
+  Website: https://cssh.northeastern.edu/bari/
+
+Harvard Dataverse Support:
+  Website: https://dataverse.harvard.edu/
+  Documentation: https://guides.dataverse.org/
+
+R Package Development:
+  R Packages Book: https://r-pkgs.org/
+  Writing R Extensions: https://cran.r-project.org/doc/manuals/r-release/R-exts.html
+
+tidybari Package Issues:
+  GitHub Issues: https://github.com/YOURUSERNAME/tidybari/issues
+
+================================================================================
+END OF TODO LIST
+================================================================================

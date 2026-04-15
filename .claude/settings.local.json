@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" -e \"devtools::load_all\\(\\); print\\(''Package loaded successfully''\\); bari_catalog\\(\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" -e \"devtools::test\\(\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" -e \"devtools::load_all\\(\\); devtools::test\\(\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/R.exe\" CMD build tidybari)",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" -e \"devtools::check\\(\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" data-raw/build_geometries.R)",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" -e \"usethis::use_vignette\\(''getting-started'', ''Getting Started with tidybari''\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" -e \"if \\(!requireNamespace\\(''dataverse'', quietly = TRUE\\)\\) install.packages\\(''dataverse'', repos = ''https://cran.r-project.org''\\)\")",
+      "Bash(\"C:/Program Files/R/R-4.3.2/bin/Rscript.exe\" discover_real_filenames.R)",
+      "Bash(Rscript:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(powershell.exe -Command \"cd ''C:\\\\Users\\\\joshr\\\\onedrive\\\\desktop\\\\PhD_Folders\\\\BARI\\\\tidybari''; Get-Command Rscript -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source\")",
+      "Bash(powershell.exe:*)",
+      "Bash(\"C:\\\\Program Files\\\\R\\\\R-4.2.0\\\\bin\\\\Rscript.exe\" test_catalog_fix.R)",
+      "Bash(\"C:\\\\Program Files\\\\R\\\\R-4.2.0\\\\bin\\\\Rscript.exe\" test_catalog_fix_simple.R)",
+      "Bash(\"C:\\\\Program Files\\\\R\\\\R-4.2.0\\\\bin\\\\Rscript.exe\" test_catalog_fix_direct.R)",
+      "Bash(\"C:\\\\Program Files\\\\R\\\\R-4.3.2\\\\bin\\\\Rscript.exe\" test_catalog_fix_direct.R)",
+      "Bash(\"C:\\\\Program Files\\\\R\\\\R-4.3.2\\\\bin\\\\Rscript.exe\" -e \"all_files <- readRDS\\(''discovered_filenames.rds''\\); cat\\(''\\\\n911 Dataset Files:\\\\n''\\); print\\(all_files[[''911'']]$label\\)\")",
+      "Bash(powershell *)",
+      "Bash(where.exe Rscript)",
+      "Read(//c/Program Files/R/**)",
+      "Bash(C:/Program Files/R/R-4.3.2/bin/Rscript.exe *)",
+      "WebSearch",
+      "WebFetch(domain:dataverse.harvard.edu)",
+      "Bash(xargs grep *)"
+    ]
+  }
+}
