@@ -164,20 +164,42 @@ get_ecometrics <- function(domain,
       ))
     }
 
-    # Join ecometric data to geometries without letting sfc touch dplyr/tibble.
-    # dplyr 1.1+ uses vctrs internally; older sf builds haven't registered vctrs
-    # methods for sfc, so any join that passes an sfc column through dplyr or
-    # tibble (including as.data.frame(sf)) triggers the "not a vector" error.
-    # Fix: separate geometry from attributes before joining, then reattach.
-    geo_geom <- sf::st_geometry(geo_sf)       # sfc only — never enters tibble
-    geo_ids  <- sf::st_drop_geometry(geo_sf)  # plain tibble, no sfc column
+    # Geometry join strategy: avoid every code path that calls tibble::tibble()
+    # with an sfc column present.  In sf/tibble version combinations where sf
+    # has not registered its vctrs methods, any such call raises
+    # "All columns in a tibble must be vectors".  The offenders include:
+    #   - dplyr::left_join() on an sf object (dispatches to sf method -> tibble)
+    #   - sf::st_sf() / sf::st_set_geometry() (both call tibble::tibble())
+    #   - geo_sf[idx, ] when geo_sf is a tbl_df-backed sf ([.tbl_df -> as_tibble)
+    #
+    # Safe strategy:
+    #   1. Drop geometry first; do the attribute join on plain data frames.
+    #   2. Extract the geometry as a bare sfc vector (no tibble involved).
+    #   3. Assemble the sf by hand: plain data.frame + direct column assignment
+    #      + class/attribute promotion.  No tibble ever sees the sfc column.
 
-    # Plain tibble-to-tibble join; no sf dispatch, no sfc column present
-    joined <- dplyr::left_join(geo_ids, data, by = join_key)
+    # Step 1 — attribute join on plain data frames (no sfc column anywhere)
+    geo_ids <- sf::st_drop_geometry(geo_sf)            # tbl_df without sfc
+    joined  <- dplyr::left_join(                       # tbl_df join, still safe
+      as.data.frame(geo_ids),
+      as.data.frame(data),
+      by = join_key
+    )
 
-    # Re-attach geometry by matching join key (handles longitudinal duplicates)
+    # Step 2 — pull geometry for each joined row (sfc subsetting, no tibble)
     idx  <- match(joined[[join_key]], geo_sf[[join_key]])
-    data <- sf::st_sf(joined, geometry = geo_geom[idx])
+    geom <- sf::st_geometry(geo_sf)[idx]
+
+    # Step 3 — assemble sf without touching tibble::tibble() or sf::st_sf()
+    #   as.data.frame() strips tbl_df; [[<-.data.frame is plain list assignment
+    #   and happily accepts an sfc.  Setting class + sf_column + crs is all
+    #   that is needed to create a valid sf object.
+    result <- as.data.frame(joined)
+    result[["geometry"]] <- geom
+    class(result) <- c("sf", "data.frame")
+    attr(result, "sf_column") <- "geometry"
+    sf::st_crs(result) <- sf::st_crs(geo_sf)
+    data <- result
 
     # Verify result is an sf object
     if (!inherits(data, "sf")) {
