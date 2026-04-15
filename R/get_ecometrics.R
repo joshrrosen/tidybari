@@ -164,10 +164,19 @@ get_ecometrics <- function(domain,
       ))
     }
 
-    # Join the ecometric data to the spatial geometries
-    # Use left_join to keep all ecometric rows even if geometry is missing
-    data <- geo_sf %>%
-      dplyr::left_join(data, by = join_key)
+    # Join the ecometric data to the spatial geometries.
+    # Use base::merge rather than dplyr::left_join: dplyr 1.1+ routes sf joins
+    # through vctrs/as_tibble(), which fails for sfc columns in some sf versions.
+    # base::merge handles sfc list columns safely; sf::st_as_sf() restores the
+    # proper sf class from the geometry column.
+    joined <- merge(
+      as.data.frame(geo_sf),
+      as.data.frame(data),
+      by   = join_key,
+      all.x = TRUE,
+      sort  = FALSE
+    )
+    data <- sf::st_as_sf(joined)
 
     # Verify result is an sf object
     if (!inherits(data, "sf")) {
