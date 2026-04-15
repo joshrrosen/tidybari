@@ -164,19 +164,20 @@ get_ecometrics <- function(domain,
       ))
     }
 
-    # Join the ecometric data to the spatial geometries.
-    # Use base::merge rather than dplyr::left_join: dplyr 1.1+ routes sf joins
-    # through vctrs/as_tibble(), which fails for sfc columns in some sf versions.
-    # base::merge handles sfc list columns safely; sf::st_as_sf() restores the
-    # proper sf class from the geometry column.
-    joined <- merge(
-      as.data.frame(geo_sf),
-      as.data.frame(data),
-      by   = join_key,
-      all.x = TRUE,
-      sort  = FALSE
-    )
-    data <- sf::st_as_sf(joined)
+    # Join ecometric data to geometries without letting sfc touch dplyr/tibble.
+    # dplyr 1.1+ uses vctrs internally; older sf builds haven't registered vctrs
+    # methods for sfc, so any join that passes an sfc column through dplyr or
+    # tibble (including as.data.frame(sf)) triggers the "not a vector" error.
+    # Fix: separate geometry from attributes before joining, then reattach.
+    geo_geom <- sf::st_geometry(geo_sf)       # sfc only — never enters tibble
+    geo_ids  <- sf::st_drop_geometry(geo_sf)  # plain tibble, no sfc column
+
+    # Plain tibble-to-tibble join; no sf dispatch, no sfc column present
+    joined <- dplyr::left_join(geo_ids, data, by = join_key)
+
+    # Re-attach geometry by matching join key (handles longitudinal duplicates)
+    idx  <- match(joined[[join_key]], geo_sf[[join_key]])
+    data <- sf::st_sf(joined, geometry = geo_geom[idx])
 
     # Verify result is an sf object
     if (!inherits(data, "sf")) {

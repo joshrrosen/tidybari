@@ -25,7 +25,8 @@
       "Bash(C:/Program Files/R/R-4.3.2/bin/Rscript.exe *)",
       "WebSearch",
       "WebFetch(domain:dataverse.harvard.edu)",
-      "Bash(xargs grep *)"
+      "Bash(xargs grep *)",
+      "Bash('C:/Program Files/R/R-4.3.2/bin/Rscript.exe' -e ' *)"
     ]
   }
 }
